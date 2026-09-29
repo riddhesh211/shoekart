@@ -1,0 +1,39 @@
+{% extends 'admin/_admin_base.html' %}
+{% block title %}Manage Products - ShoeKart{% endblock %}
+{% block admin_content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h3 class="fw-bold mb-0">Manage Products</h3>
+    <a href="{{ url_for('admin_add_product') }}" class="btn btn-warning"><i class="fa-solid fa-plus"></i> Add Product</a>
+</div>
+
+<div class="card shadow-sm p-3">
+    <table class="table table-hover align-middle">
+        <thead><tr><th>Image</th><th>Name</th><th>Category</th><th>Price</th><th>Stock</th><th>Actions</th></tr></thead>
+        <tbody>
+        {% for p in products %}
+        <tr>
+            <td><img src="{{ url_for('static', filename='images/' + p.image) }}" onerror="this.src='{{ url_for('static', filename='images/default_shoe.jpg') }}'" class="admin-thumb"></td>
+            <td>{{ p.name }}</td>
+            <td>{{ p.category_name }}</td>
+            <td>
+                {% if p.discount_price %}<span class="text-danger fw-bold">₹{{ '%.0f'|format(p.discount_price) }}</span> <s class="text-muted small">₹{{ '%.0f'|format(p.price) }}</s>
+                {% else %}₹{{ '%.0f'|format(p.price) }}{% endif %}
+            </td>
+            <td>
+                <form action="{{ url_for('admin_update_stock', product_id=p.id) }}" method="post" class="d-flex gap-1">
+                    <input type="number" name="stock" value="{{ p.stock }}" class="form-control form-control-sm" style="width:70px">
+                    <button class="btn btn-sm btn-outline-dark">Save</button>
+                </form>
+            </td>
+            <td>
+                <a href="{{ url_for('admin_edit_product', product_id=p.id) }}" class="btn btn-sm btn-outline-primary"><i class="fa-solid fa-pen"></i></a>
+                <a href="{{ url_for('admin_delete_product', product_id=p.id) }}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this product?')"><i class="fa-solid fa-trash"></i></a>
+            </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="6" class="text-muted text-center">No products yet.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

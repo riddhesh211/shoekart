@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% from '_product_card.html' import product_card %}
+{% block title %}ShoeKart - Step into Style{% endblock %}
+
+{% block content %}
+<!-- HERO BANNER -->
+<section class="hero-banner text-white">
+    <div class="container py-5">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-5 fw-bold mb-3">Step Into Style with ShoeKart</h1>
+                <p class="lead mb-4">Sneakers, sandals &amp; chappals for every step of your journey. Comfort you can trust, style you'll love.</p>
+                <div class="d-flex gap-2 flex-wrap">
+                    <a href="{{ url_for('products', slug='sneakers') }}" class="btn btn-warning btn-lg">Shop Sneakers</a>
+                    <a href="{{ url_for('products', slug='sandals') }}" class="btn btn-outline-light btn-lg">Shop Sandals</a>
+                    <a href="{{ url_for('products', slug='chappals') }}" class="btn btn-outline-light btn-lg">Shop Chappals</a>
+                </div>
+            </div>
+            <div class="col-lg-6 text-center d-none d-lg-block">
+                <i class="fa-solid fa-shoe-prints hero-icon"></i>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="container py-5">
+
+    <!-- FEATURED PRODUCTS -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3 class="fw-bold">Featured Products</h3>
+        <a href="{{ url_for('products') }}" class="small">View All &rarr;</a>
+    </div>
+    <div class="row">
+        {% for p in featured %}{{ product_card(p) }}{% else %}<p class="text-muted">No featured products yet.</p>{% endfor %}
+    </div>
+
+    <!-- NEW ARRIVALS -->
+    <div class="d-flex justify-content-between align-items-center mb-3 mt-4">
+        <h3 class="fw-bold">New Arrivals</h3>
+        <a href="{{ url_for('products') }}?sort=newest" class="small">View All &rarr;</a>
+    </div>
+    <div class="row">
+        {% for p in new_arrivals %}{{ product_card(p) }}{% else %}<p class="text-muted">No new arrivals yet.</p>{% endfor %}
+    </div>
+
+    <!-- DISCOUNT SECTION -->
+    <div class="d-flex justify-content-between align-items-center mb-3 mt-4">
+        <h3 class="fw-bold">On Sale <i class="fa-solid fa-fire text-danger"></i></h3>
+        <a href="{{ url_for('products') }}" class="small">View All &rarr;</a>
+    </div>
+    <div class="row">
+        {% for p in discounted %}{{ product_card(p) }}{% else %}<p class="text-muted">No discounted products right now.</p>{% endfor %}
+    </div>
+</div>
+{% endblock %}

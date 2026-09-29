@@ -1,0 +1,23 @@
+{% extends 'admin/_admin_base.html' %}
+{% block title %}Manage Users - ShoeKart{% endblock %}
+{% block admin_content %}
+<h3 class="fw-bold mb-4">Registered Users</h3>
+<div class="card shadow-sm p-3">
+    <table class="table table-hover align-middle">
+        <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Joined</th><th></th></tr></thead>
+        <tbody>
+        {% for u in users %}
+        <tr>
+            <td>{{ u.full_name }}</td>
+            <td>{{ u.email }}</td>
+            <td>{{ u.phone }}</td>
+            <td>{{ u.created_at.strftime('%d %b %Y') }}</td>
+            <td><a href="{{ url_for('admin_user_details', user_id=u.id) }}" class="btn btn-sm btn-outline-dark">View</a></td>
+        </tr>
+        {% else %}
+        <tr><td colspan="5" class="text-muted text-center">No registered users yet.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

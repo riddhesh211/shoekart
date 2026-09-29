@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %}My Profile - ShoeKart{% endblock %}
+{% block content %}
+<div class="container py-4">
+    <h3 class="fw-bold mb-4">My Profile</h3>
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card p-3 shadow-sm">
+                <h5 class="fw-bold mb-3">Account Details</h5>
+                <form method="post">
+                    <div class="mb-3">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" name="full_name" class="form-control" value="{{ user.full_name }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" value="{{ user.email }}" disabled>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Phone</label>
+                        <input type="text" name="phone" class="form-control" value="{{ user.phone }}" required>
+                    </div>
+                    <button type="submit" class="btn btn-warning">Update Profile</button>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card p-3 shadow-sm">
+                <h5 class="fw-bold mb-3">Saved Addresses</h5>
+                {% if not addresses %}
+                <p class="text-muted small">No saved addresses yet. Addresses are added automatically at checkout.</p>
+                {% else %}
+                {% for a in addresses %}
+                <div class="border rounded p-2 mb-2 small">
+                    <strong>{{ a.full_name }}</strong> ({{ a.mobile }})<br>
+                    {{ a.address }}, {{ a.city }}, {{ a.state }} - {{ a.pincode }}
+                </div>
+                {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

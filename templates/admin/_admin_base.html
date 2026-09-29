@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-md-2 mb-4">
+            <div class="list-group admin-sidebar">
+                <a href="{{ url_for('admin_dashboard') }}" class="list-group-item list-group-item-action {{ 'active' if request.endpoint == 'admin_dashboard' }}">
+                    <i class="fa-solid fa-gauge"></i> Dashboard
+                </a>
+                <a href="{{ url_for('admin_products') }}" class="list-group-item list-group-item-action {{ 'active' if 'product' in request.endpoint }}">
+                    <i class="fa-solid fa-shoe-prints"></i> Products
+                </a>
+                <a href="{{ url_for('admin_categories') }}" class="list-group-item list-group-item-action {{ 'active' if 'categor' in request.endpoint }}">
+                    <i class="fa-solid fa-tags"></i> Categories
+                </a>
+                <a href="{{ url_for('admin_orders') }}" class="list-group-item list-group-item-action {{ 'active' if 'order' in request.endpoint }}">
+                    <i class="fa-solid fa-box"></i> Orders
+                </a>
+                <a href="{{ url_for('admin_users') }}" class="list-group-item list-group-item-action {{ 'active' if 'user' in request.endpoint }}">
+                    <i class="fa-solid fa-users"></i> Users
+                </a>
+                <a href="{{ url_for('index') }}" class="list-group-item list-group-item-action">
+                    <i class="fa-solid fa-arrow-left"></i> Back to Site
+                </a>
+            </div>
+        </div>
+        <div class="col-md-10">
+            {% block admin_content %}{% endblock %}
+        </div>
+    </div>
+</div>
+{% endblock %}

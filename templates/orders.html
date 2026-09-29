@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}My Orders - ShoeKart{% endblock %}
+{% block content %}
+<div class="container py-4">
+    <h3 class="fw-bold mb-4">My Orders</h3>
+
+    {% if not orders %}
+    <p class="text-muted text-center py-5">You haven't placed any orders yet.</p>
+    {% else %}
+    {% for order in orders %}
+    <div class="card mb-3 shadow-sm">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start flex-wrap">
+                <div>
+                    <h6 class="fw-bold mb-1">Order #{{ order.id }}</h6>
+                    <p class="small text-muted mb-1">Placed on {{ order.created_at.strftime('%d %b %Y, %I:%M %p') }}</p>
+                    <p class="small mb-0">Payment: {{ order.payment_method }}</p>
+                </div>
+                <div class="text-end">
+                    <span class="badge status-badge status-{{ order.status|lower }}">{{ order.status }}</span>
+                    <p class="fw-bold mt-2 mb-0">₹{{ '%.0f'|format(order.total_amount) }}</p>
+                </div>
+            </div>
+            <hr>
+           {% for item in order['items'] %}
+            <div class="d-flex justify-content-between small mb-1">
+                <span>{{ item.product_name }} (Size {{ item.size }}) x{{ item.quantity }}</span>
+                <span>₹{{ '%.0f'|format(item.price * item.quantity) }}</span>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+</div>
+{% endblock %}

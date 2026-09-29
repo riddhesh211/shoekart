@@ -1,0 +1,55 @@
+{% extends 'admin/_admin_base.html' %}
+{% block title %}Admin Dashboard - ShoeKart{% endblock %}
+{% block admin_content %}
+<h3 class="fw-bold mb-4">Admin Dashboard</h3>
+<div class="row mb-4">
+    <div class="col-md-3 mb-3">
+        <div class="card stat-card text-center p-3">
+            <i class="fa-solid fa-shoe-prints fa-2x text-warning mb-2"></i>
+            <h4 class="fw-bold">{{ stats.total_products }}</h4>
+            <p class="text-muted small mb-0">Total Products</p>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card stat-card text-center p-3">
+            <i class="fa-solid fa-users fa-2x text-primary mb-2"></i>
+            <h4 class="fw-bold">{{ stats.total_users }}</h4>
+            <p class="text-muted small mb-0">Total Users</p>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card stat-card text-center p-3">
+            <i class="fa-solid fa-box fa-2x text-success mb-2"></i>
+            <h4 class="fw-bold">{{ stats.total_orders }}</h4>
+            <p class="text-muted small mb-0">Total Orders</p>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card stat-card text-center p-3">
+            <i class="fa-solid fa-indian-rupee-sign fa-2x text-danger mb-2"></i>
+            <h4 class="fw-bold">₹{{ '%.0f'|format(stats.total_sales) }}</h4>
+            <p class="text-muted small mb-0">Total Sales</p>
+        </div>
+    </div>
+</div>
+
+<div class="card p-3 shadow-sm">
+    <h5 class="fw-bold mb-3">Recent Orders</h5>
+    <table class="table table-sm">
+        <thead><tr><th>Order ID</th><th>Total</th><th>Payment</th><th>Status</th><th>Date</th></tr></thead>
+        <tbody>
+        {% for o in recent_orders %}
+        <tr>
+            <td><a href="{{ url_for('admin_order_details', order_id=o.id) }}">#{{ o.id }}</a></td>
+            <td>₹{{ '%.0f'|format(o.total_amount) }}</td>
+            <td>{{ o.payment_method }}</td>
+            <td><span class="badge status-badge status-{{ o.status|lower }}">{{ o.status }}</span></td>
+            <td>{{ o.created_at.strftime('%d %b %Y') }}</td>
+        </tr>
+        {% else %}
+        <tr><td colspan="5" class="text-muted text-center">No orders yet.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

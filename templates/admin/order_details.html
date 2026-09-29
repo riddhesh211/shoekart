@@ -1,0 +1,42 @@
+{% extends 'admin/_admin_base.html' %}
+{% block title %}Order #{{ order.id }} - ShoeKart{% endblock %}
+{% block admin_content %}
+<h3 class="fw-bold mb-4">Order #{{ order.id }}</h3>
+<div class="row">
+    <div class="col-md-7">
+        <div class="card shadow-sm p-3 mb-4">
+            <h6 class="fw-bold">Items</h6>
+            {% for item in items %}
+            <div class="d-flex justify-content-between small mb-1">
+                <span>{{ item.product_name }} (Size {{ item.size }}) x{{ item.quantity }}</span>
+                <span>₹{{ '%.0f'|format(item.price * item.quantity) }}</span>
+            </div>
+            {% endfor %}
+            <hr>
+            <div class="d-flex justify-content-between mb-1"><span>Subtotal</span><span>₹{{ '%.0f'|format(order.subtotal) }}</span></div>
+            <div class="d-flex justify-content-between mb-1"><span>Delivery</span><span>₹{{ '%.0f'|format(order.delivery_charge) }}</span></div>
+            <div class="d-flex justify-content-between fw-bold"><span>Total</span><span>₹{{ '%.0f'|format(order.total_amount) }}</span></div>
+        </div>
+    </div>
+    <div class="col-md-5">
+        <div class="card shadow-sm p-3 mb-4">
+            <h6 class="fw-bold">Customer &amp; Delivery Info</h6>
+            <p class="small mb-1"><strong>{{ order.full_name }}</strong></p>
+            <p class="small mb-1">{{ order.email }} | {{ order.phone }}</p>
+            <p class="small mb-1">Deliver to: {{ order.mobile }}</p>
+            <p class="small">{{ order.address }}, {{ order.city }}, {{ order.state }} - {{ order.pincode }}</p>
+        </div>
+        <div class="card shadow-sm p-3">
+            <h6 class="fw-bold">Update Status</h6>
+            <form method="post" action="{{ url_for('admin_update_order_status', order_id=order.id) }}" class="d-flex gap-2">
+                <select name="status" class="form-select">
+                    {% for s in ['Pending','Confirmed','Shipped','Delivered','Cancelled'] %}
+                    <option value="{{ s }}" {% if order.status == s %}selected{% endif %}>{{ s }}</option>
+                    {% endfor %}
+                </select>
+                <button class="btn btn-warning">Update</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

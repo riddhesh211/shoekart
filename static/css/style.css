@@ -1,0 +1,142 @@
+/* ================================================
+   ShoeKart - Main Stylesheet
+   ================================================ */
+
+:root {
+    --sk-dark: #1b1b1f;
+    --sk-accent: #ffb703;
+    --sk-accent-dark: #fb8500;
+}
+
+body {
+    font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+    background-color: #f8f9fa;
+    color: #212529;
+}
+
+/* NAVBAR */
+.sk-navbar {
+    background: linear-gradient(90deg, var(--sk-dark), #2c2c34);
+}
+.sk-navbar .nav-link {
+    font-weight: 500;
+}
+.sk-navbar .nav-link:hover {
+    color: var(--sk-accent) !important;
+}
+
+/* HERO */
+.hero-banner {
+    background: linear-gradient(135deg, var(--sk-dark) 0%, #3a3a45 100%);
+}
+.hero-icon {
+    font-size: 14rem;
+    color: rgba(255, 183, 3, 0.25);
+}
+
+/* PRODUCT CARD */
+.product-card {
+    border: 1px solid #eee;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+}
+.product-img-wrap {
+    position: relative;
+    background: #fafafa;
+}
+.product-card img.card-img-top {
+    height: 180px;
+    object-fit: contain;
+    padding: 10px;
+}
+.badge-tag {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    font-size: 0.65rem;
+}
+.badge-tag-sale {
+    top: 8px;
+    left: auto;
+    right: 8px;
+}
+.badge-tag-popular {
+    top: 34px;
+    left: 8px;
+}
+.product-link {
+    color: inherit;
+    text-decoration: none;
+}
+.product-link:hover {
+    color: var(--sk-accent-dark);
+}
+
+/* PRODUCT DETAILS */
+.product-detail-img {
+    width: 100%;
+    max-height: 420px;
+    object-fit: contain;
+    background: #fafafa;
+    padding: 20px;
+}
+.size-btn {
+    min-width: 55px;
+}
+
+/* FILTER SIDEBAR */
+.filter-card {
+    border-radius: 10px;
+    border: 1px solid #eee;
+}
+
+/* CART */
+.cart-item-img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    background: #fafafa;
+    border-radius: 8px;
+}
+
+/* STATUS BADGES */
+.status-badge { padding: 5px 10px; }
+.status-pending { background-color: #6c757d; }
+.status-confirmed { background-color: #0d6efd; }
+.status-shipped { background-color: #fd7e14; }
+.status-delivered { background-color: #198754; }
+.status-cancelled { background-color: #dc3545; }
+
+/* ADMIN */
+.admin-sidebar .list-group-item.active {
+    background-color: var(--sk-dark);
+    border-color: var(--sk-dark);
+}
+.stat-card {
+    border-radius: 10px;
+    border: 1px solid #eee;
+}
+.admin-thumb {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    background: #fafafa;
+    border-radius: 6px;
+}
+
+/* FOOTER */
+.sk-footer {
+    background-color: var(--sk-dark);
+}
+.footer-link {
+    color: #ced4da;
+    text-decoration: none;
+}
+.footer-link:hover {
+    color: var(--sk-accent);
+}

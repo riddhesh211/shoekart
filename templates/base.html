@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}ShoeKart - Step into Style{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+</head>
+<body>
+
+<!-- ===================== NAVBAR ===================== -->
+<nav class="navbar navbar-expand-lg navbar-dark sk-navbar sticky-top">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="{{ url_for('index') }}">
+            <i class="fa-solid fa-shoe-prints"></i> ShoeKart
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navMenu">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('index') }}">Home</a></li>
+                {% for cat in nav_categories %}
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('products', slug=cat.slug) }}">{{ cat.name }}</a></li>
+                {% endfor %}
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('products') }}">All Products</a></li>
+            </ul>
+
+            <form class="d-flex mx-lg-3 my-2 my-lg-0" role="search" action="{{ url_for('products') }}" method="get">
+                <input class="form-control form-control-sm me-2" type="search" name="q" placeholder="Search shoes..." value="{{ request.args.get('q','') }}">
+                <button class="btn btn-sm btn-light" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+            </form>
+
+            <ul class="navbar-nav align-items-lg-center">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('cart_view') }}">
+                        <i class="fa-solid fa-cart-shopping"></i> Cart
+                        {% if cart_count and cart_count > 0 %}
+                        <span class="badge bg-danger rounded-pill">{{ cart_count }}</span>
+                        {% endif %}
+                    </a>
+                </li>
+                {% if session.get('user_id') %}
+                    {% if session.get('is_admin') %}
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('admin_dashboard') }}"><i class="fa-solid fa-user-shield"></i> Admin</a></li>
+                    {% endif %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                            <i class="fa-solid fa-circle-user"></i> {{ session.get('full_name') }}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="{{ url_for('profile') }}">My Profile</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('orders') }}">My Orders</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{{ url_for('logout') }}">Logout</a></li>
+                        </ul>
+                    </li>
+                {% else %}
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('login') }}">Login</a></li>
+                    <li class="nav-item"><a class="btn btn-sm btn-warning ms-2" href="{{ url_for('register') }}">Register</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- ===================== FLASH MESSAGES ===================== -->
+<div class="container mt-3">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+</div>
+
+<!-- ===================== PAGE CONTENT ===================== -->
+<main>
+    {% block content %}{% endblock %}
+</main>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="sk-footer text-light pt-5 pb-3 mt-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <h5 class="fw-bold"><i class="fa-solid fa-shoe-prints"></i> ShoeKart</h5>
+                <p class="small text-light-emphasis">Your one-stop shop for sneakers, sandals and chappals. Comfort meets style, delivered to your door.</p>
+            </div>
+            <div class="col-md-2 mb-4">
+                <h6 class="fw-bold">Shop</h6>
+                <ul class="list-unstyled small">
+                    {% for cat in nav_categories %}
+                    <li><a href="{{ url_for('products', slug=cat.slug) }}" class="footer-link">{{ cat.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="col-md-3 mb-4">
+                <h6 class="fw-bold">Account</h6>
+                <ul class="list-unstyled small">
+                    <li><a href="{{ url_for('login') }}" class="footer-link">Login</a></li>
+                    <li><a href="{{ url_for('register') }}" class="footer-link">Register</a></li>
+                    <li><a href="{{ url_for('orders') if session.get('user_id') else url_for('login') }}" class="footer-link">My Orders</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3 mb-4">
+                <h6 class="fw-bold">Contact</h6>
+                <p class="small mb-1"><i class="fa-solid fa-envelope"></i> support@shoekart.com</p>
+                <p class="small"><i class="fa-solid fa-phone"></i> +91 98765 43210</p>
+            </div>
+        </div>
+        <hr class="border-secondary">
+        <p class="text-center small mb-0">&copy; {{ current_year }} ShoeKart. College project - built with Flask &amp; MySQL.</p>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>
