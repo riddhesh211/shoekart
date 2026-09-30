@@ -3,7 +3,6 @@
 <div class="col-md-6 col-xl-4 mb-4">
     <div class="card product-card h-100 shadow-sm">
 
-        <!-- Product Image -->
         <div class="position-relative overflow-hidden">
             {% if product['image'] %}
                 <img
@@ -25,7 +24,6 @@
             {% endif %}
         </div>
 
-        <!-- Product Information -->
         <div class="card-body d-flex flex-column">
 
             <small class="text-muted">
@@ -36,7 +34,6 @@
                 {{ product['name'] }}
             </h5>
 
-            <!-- Rating -->
             <div class="mb-2">
                 <span class="text-warning">★★★★★</span>
                 <small class="text-muted">
@@ -44,13 +41,11 @@
                 </small>
             </div>
 
-            <!-- Price -->
             <div class="mb-3">
                 {% if product.get('discount_price') %}
                     <span class="fw-bold text-danger">
                         ₹{{ product['discount_price'] }}
                     </span>
-
                     <del class="text-muted ms-2">
                         ₹{{ product['price'] }}
                     </del>
@@ -61,7 +56,6 @@
                 {% endif %}
             </div>
 
-            <!-- Buttons -->
             <div class="mt-auto d-flex gap-2">
 
                 <a
