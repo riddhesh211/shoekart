@@ -3,7 +3,9 @@
 <div class="col-md-6 col-xl-4 mb-4">
     <div class="card product-card h-100 shadow-sm">
 
+        <!-- Product Image -->
         <div class="position-relative overflow-hidden">
+
             {% if product['image'] %}
                 <img
                     src="{{ url_for('static', filename='images/' ~ product['image']) }}"
@@ -13,74 +15,104 @@
                 >
             {% else %}
                 <div class="product-image d-flex align-items-center justify-content-center bg-light">
-                    <span class="text-muted">No Image Available</span>
+                    <span class="text-muted">
+                        No Image Available
+                    </span>
                 </div>
             {% endif %}
 
+            <!-- Sale Badge -->
             {% if product.get('discount', 0) > 0 %}
                 <span class="badge bg-danger position-absolute top-0 start-0 m-2">
                     SALE
                 </span>
             {% endif %}
+
         </div>
 
+        <!-- Product Information -->
         <div class="card-body d-flex flex-column">
 
+            <!-- Category -->
             <small class="text-muted">
-                {{ product['category_name'] }}
+                {{ product.get('category_name', '') }}
             </small>
 
+            <!-- Product Name -->
             <h5 class="card-title mt-1">
                 {{ product['name'] }}
             </h5>
 
+            <!-- Rating -->
             <div class="mb-2">
                 <span class="text-warning">★★★★★</span>
+
                 <small class="text-muted">
                     {{ product.get('rating', 0) }}
                 </small>
             </div>
 
+            <!-- Price -->
             <div class="mb-3">
+
                 {% if product.get('discount_price') %}
+
                     <span class="fw-bold text-danger">
                         ₹{{ product['discount_price'] }}
                     </span>
+
                     <del class="text-muted ms-2">
                         ₹{{ product['price'] }}
                     </del>
+
                 {% else %}
+
                     <span class="fw-bold">
                         ₹{{ product['price'] }}
                     </span>
+
                 {% endif %}
+
             </div>
 
+            <!-- Buttons -->
             <div class="mt-auto d-flex gap-2">
 
+                <!-- View Details -->
                 <a
                     href="{{ url_for('product_details', product_id=product['id']) }}"
-                    class="btn btn-outline-dark btn-sm flex-fill">
+                    class="btn btn-outline-dark btn-sm flex-fill"
+                >
                     View Details
                 </a>
 
+                <!-- Add to Cart -->
                 {% if product.get('stock', 0) > 0 %}
+
                     <a
                         href="{{ url_for('product_details', product_id=product['id']) }}"
-                        class="btn btn-dark btn-sm flex-fill">
+                        class="btn btn-dark btn-sm flex-fill"
+                    >
                         Add to Cart
                     </a>
+
                 {% else %}
+
                     <button
+                        type="button"
                         class="btn btn-secondary btn-sm flex-fill"
-                        disabled>
+                        disabled
+                    >
                         Out of Stock
                     </button>
+
                 {% endif %}
 
             </div>
 
         </div>
+
     </div>
 </div>
 
+{% endmacro %}
