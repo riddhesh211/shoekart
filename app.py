@@ -1,3 +1,13 @@
+"""
+ShoeKart - Online Footwear Shopping Website
+=============================================
+Main Flask application file. Contains every route for the customer-facing
+site and the admin panel. All database access goes through db.py, which
+uses parameterized queries to stay safe from SQL injection.
+
+Run with:  python app.py
+"""
+
 import os
 from functools import wraps
 from datetime import datetime
@@ -13,7 +23,6 @@ from config import Config
 import db
 
 app = Flask(__name__)
-app.jinja_env.globals.update(int=int)
 app.config.from_object(Config)
 db.init_app(app)
 
@@ -152,14 +161,10 @@ def products(slug=None):
     """
     params = []
 
-    # If a category page is opened using /category/<slug>,
-    # use that category and ignore the dropdown category_id.
-    # This prevents two different category filters from being
-    # applied at the same time and returning 0 products.
     if category:
         sql += ' AND p.category_id = %s'
         params.append(category['id'])
-    elif category_id:
+    if category_id:
         sql += ' AND p.category_id = %s'
         params.append(category_id)
     if q:
